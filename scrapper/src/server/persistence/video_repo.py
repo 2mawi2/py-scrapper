@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 import tinydb
-from tinydb import Query
 
-from scrapper.server.common.static import video_table
-from scrapper.server.model.Video import Video
-from scrapper.server.persistence.video_serializer import serialize, deserialize
+from scrapper.src.server.common.static import video_table
+from scrapper.src.server.model.video import Video
+from scrapper.src.server.persistence.video_serializer import serialize, deserialize
 
 
 @dataclass

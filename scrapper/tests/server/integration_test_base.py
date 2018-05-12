@@ -1,8 +1,8 @@
 import multiprocessing
 from unittest import TestCase
 
-from scrapper.server.server import app
-from tests.server.http_client import HttpClient
+from scrapper.src.server.server import app
+from scrapper.tests.server.http_client import HttpClient
 
 
 class IntegrationTestBase(TestCase):

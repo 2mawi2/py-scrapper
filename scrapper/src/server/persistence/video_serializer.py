@@ -1,4 +1,4 @@
-from scrapper.server.model.Video import Video
+from scrapper.src.server.model.video import Video
 
 
 def deserialize(videos: [dict]) -> [Video]:

@@ -1,14 +1,14 @@
 from unittest import TestCase
 from tinydb import TinyDB
 
-from scrapper.server.common.static import ROOT_DIR
-from scrapper.server.model.Video import Video
-from scrapper.server.persistence.video_repo import VideoRepo
+from scrapper.src.server.common.static import ROOT_DIR
+from scrapper.src.server.model.video import Video
+from scrapper.src.server.persistence.video_repo import VideoRepo
 
 
 class TestVideoRepo(TestCase):
     def setUp(self):
-        self.db = TinyDB(f"{ROOT_DIR}\\..\\..\\..\\resources\\db.json")
+        self.db = TinyDB(f"{ROOT_DIR}\\..\\..\\..\\..\\resources\\db.json")
         self.repo = VideoRepo(self.db)
 
     def tearDown(self):

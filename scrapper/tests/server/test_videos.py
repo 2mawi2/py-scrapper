@@ -1,4 +1,4 @@
-from tests.server.integration_test_base import IntegrationTestBase
+from scrapper.tests.server.integration_test_base import IntegrationTestBase
 
 
 class IntegrationTestVideos(IntegrationTestBase):
