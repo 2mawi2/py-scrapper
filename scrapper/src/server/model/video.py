@@ -3,13 +3,12 @@ from dataclasses import dataclass
 
 @dataclass
 class Video:
-    Url: str = ""
-    Preview: str = ""
-    Title: str = ""
-    Actor: str = ""
-    Date: str = ""
-    IsFavourite: bool = False
-    Description: str = ""
-    Keywords: str = ""
-
-
+    video_id: int = None
+    url: str = ""
+    preview: str = ""
+    title: str = ""
+    actor: str = ""
+    date: str = ""
+    isFavourite: bool = False
+    description: str = ""
+    keywords: str = ""
