@@ -1,3 +1,4 @@
+import abc
 import multiprocessing
 from unittest import TestCase
 
@@ -8,21 +9,15 @@ from scrapper.src.server.server import server
 from scrapper.tests.http_client import HttpClient
 
 
-def add_data():
-    repo = VideoRepo(DB_DEVELOPMENT)
-    repo.insert([
-        Video(url="some", isFavourite=False),
-        Video(url="some", isFavourite=True),
-        Video(url="some", isFavourite=False),
-    ])
-
-
-def remove_data():
-    repo = VideoRepo(DB_DEVELOPMENT)
-    repo.delete_all()
-
-
 class IntegrationTestBase(TestCase):
+    @abc.abstractmethod
+    def add_data(self):
+        pass
+
+    @abc.abstractmethod
+    def remove_data(self):
+        pass
+
     def run_server(self):
         self.p = multiprocessing.Process(name="server", target=server, args=(True,))
         self.p.daemon = True
@@ -31,16 +26,11 @@ class IntegrationTestBase(TestCase):
     def setUp(self):
         self.run_server()
         self.client = HttpClient("http://localhost:5000/")
-        add_data()
+        self.add_data()
 
     def tearDown(self):
         self.p.terminate()
-        remove_data()
+        self.remove_data()
 
     def addCleanup(self, function, *args, **kwargs):
         super().addCleanup(function, *args, **kwargs)
-
-
-
-
-

@@ -3,21 +3,24 @@ from enum import Enum
 
 
 class SearchType(Enum):
-    Id = 1
-    SearchType = 2
-    Title = 3
-    Actor = 4
-    Date = 5
-    IsFavourite = 6
-    Keywords = 7
-    Description = 8
-    All = 9
+    id = 1
+    searchType = 2
+    title = 3
+    actor = 4
+    date = 5
+    isFavourite = 6
+    keywords = 7
+    description = 8
+    all = 9
 
 
 @dataclass
 class SearchRequest:
     SearchType: SearchType
     SearchField: str
+
+    def __init__(self, iterable=(), **kwargs) -> None:
+        self.__dict__.update(iterable, **kwargs)
 
 
 @dataclass

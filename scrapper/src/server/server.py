@@ -8,7 +8,7 @@ from flask import json
 
 from scrapper.src.server.common import utils
 from scrapper.src.server.common.static import DB_PRODUCTION, DB_DEVELOPMENT
-from scrapper.src.server.model.search_request import PagedRequest
+from scrapper.src.server.model.search_request import PagedRequest, SearchRequest, SearchType
 from scrapper.src.server.model.video import Video
 from scrapper.src.server.persistence.video_repo import VideoRepo
 
@@ -39,11 +39,22 @@ class VideoCtrl:
         return web.Response(status=202)
 
     async def paged(self, request: Request):
-        content = await utils.read_request_content(request)
-        paged_rq = PagedRequest(content)
+        paged_rq: PagedRequest = await utils.read_request_content(request, PagedRequest)
         videos = self.video_Repo.all()
         videos = limit(videos, paged_rq.PageSize, paged_rq.Skip)
 
+        payload = utils.to_json(*videos)
+        return web.Response(status=200, body=payload)
+
+    async def search(self, request: Request):
+        search_rq: SearchRequest = await utils.read_request_content(request, SearchRequest)
+
+        if type(search_rq.SearchType) is str:
+            search_rq.SearchType = SearchType[search_rq.SearchType]
+
+        videos = self.video_Repo.search(search_rq)
+
+        videos = limit(videos, 1000, 0)
         payload = utils.to_json(*videos)
         return web.Response(status=200, body=payload)
 
@@ -63,6 +74,7 @@ def server(is_development: bool):
         web.get('/videos/favourite/{video_id}', video_ctrl.favourite),
         web.get('/videos/unfavourite/{video_id}', video_ctrl.unfavourite),
         web.post('/videos/paged', video_ctrl.paged),
+        web.post('/videos/search', video_ctrl.search),
     ])
     web.run_app(app, host="localhost", port=5000)
 

@@ -7,10 +7,10 @@ from scrapper.src.server.persistence.video_serializer import serialize, deserial
 class TestSerializer(TestCase):
 
     def test_serialize(self):
-        result = serialize([Video(isFavourite=False, description="Description")])
+        result = serialize([Video(isFavourite=False, description="description")])
         self.assertEqual(result[0], {'actor': '',
                                      'date': '',
-                                     'description': 'Description',
+                                     'description': 'description',
                                      'isFavourite': False,
                                      'keywords': '',
                                      'preview': '',
@@ -20,7 +20,7 @@ class TestSerializer(TestCase):
     def test_deserialize(self):
         video = ElementMock({'actor': '',
                              'date': '',
-                             'description': 'Description',
+                             'description': 'description',
                              'isFavourite': True,
                              'keywords': '',
                              'preview': '',
@@ -29,7 +29,7 @@ class TestSerializer(TestCase):
         video.doc_id = 1
 
         result = deserialize([video])
-        self.assertEqual(result[0], Video(video_id=1, isFavourite=True, description="Description"))
+        self.assertEqual(result[0], Video(video_id=1, isFavourite=True, description="description"))
 
 
 class ElementMock(dict):
