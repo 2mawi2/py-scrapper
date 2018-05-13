@@ -1,6 +1,4 @@
 import json
-from enum import Enum
-
 from scrapper.src.server.common.static import DB_DEVELOPMENT
 from scrapper.src.server.model.search_request import PagedRequest, SearchRequest, SearchType
 from scrapper.src.server.model.video import Video

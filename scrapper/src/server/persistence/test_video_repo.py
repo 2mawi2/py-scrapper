@@ -1,7 +1,8 @@
 from unittest import TestCase
 
-from scrapper.src.server.common.errors import BadRequestError
-from scrapper.src.server.common.static import ROOT_DIR, DB_DEVELOPMENT
+from aiohttp.web_exceptions import HTTPBadRequest
+
+from scrapper.src.server.common.static import DB_DEVELOPMENT
 from scrapper.src.server.model.search_request import SearchRequest, SearchType
 from scrapper.src.server.model.video import Video
 from scrapper.src.server.persistence.video_repo import VideoRepo
@@ -61,11 +62,11 @@ class TestVideoRepo(TestCase):
     def test_search_should_validate_searchField(self):
         for st in [SearchType.all, SearchType.keywords, SearchType.description, SearchType.title, SearchType.date,
                    SearchType.actor]:
-            with self.assertRaises(BadRequestError):
+            with self.assertRaises(HTTPBadRequest):
                 self.repo.search(SearchRequest(SearchField="", SearchType=st))
 
     def test_search_should_validate_searchType_id(self):
-        with self.assertRaises(BadRequestError):
+        with self.assertRaises(HTTPBadRequest):
             self.repo.search(SearchRequest(SearchField="l", SearchType=SearchType.id))
 
     def test_search_favourite(self):

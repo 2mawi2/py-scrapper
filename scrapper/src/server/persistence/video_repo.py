@@ -1,7 +1,9 @@
+import aiohttp
 from collections import defaultdict
 from dataclasses import dataclass
-from tinydb import TinyDB, Query
-from scrapper.src.server.common.errors import NotFoundError, BadRequestError
+
+from aiohttp.web_exceptions import HTTPBadRequest, HTTPNotFound
+from tinydb import TinyDB
 from scrapper.src.server.common.static import video_table
 from scrapper.src.server.model.search_request import SearchRequest, SearchType
 from scrapper.src.server.model.video import Video
@@ -26,7 +28,7 @@ class VideoRepo:
             videos = db.table(video_table)
 
             if videos is None:
-                raise NotFoundError()
+                raise HTTPNotFound()
 
             return deserialize(videos)
 
@@ -39,7 +41,7 @@ class VideoRepo:
             result = db.table(video_table).get(doc_id=video_id)
 
             if result is None:
-                raise NotFoundError(video_id)
+                raise HTTPNotFound()
 
             return deserialize([result])[0]
 
@@ -100,7 +102,7 @@ class VideoRepo:
                    + self.search_by_attribute(sf, "date") \
                    + self.search_by_attribute(sf, "title")
         else:
-            raise BadRequestError("Invalid SearchType")
+            raise HTTPBadRequest()
 
 
 def validate_request(search_rq: SearchRequest):
@@ -110,10 +112,10 @@ def validate_request(search_rq: SearchRequest):
     if st in [SearchType.keywords, SearchType.all, SearchType.description,
               SearchType.title, SearchType.date, SearchType.actor]:
         if sf == "":
-            raise BadRequestError("SearchField must be set")
+            raise HTTPBadRequest()
 
     if st is SearchType.id:
         try:
             int(sf)
         except ValueError:
-            raise BadRequestError("SearchField must contain a valid int id")
+            raise HTTPBadRequest()

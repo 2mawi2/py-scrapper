@@ -1,10 +1,7 @@
-import sys
 from dataclasses import dataclass
 
-import routes as routes
 from aiohttp import web
 from aiohttp.web_request import Request
-from flask import json
 
 from scrapper.src.server.common import utils
 from scrapper.src.server.common.static import DB_PRODUCTION, DB_DEVELOPMENT
