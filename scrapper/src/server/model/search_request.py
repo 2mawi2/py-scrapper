@@ -19,3 +19,11 @@ class SearchRequest:
     SearchType: SearchType
     SearchField: str
 
+
+@dataclass
+class PagedRequest:
+    PageSize: int
+    Skip: int
+
+    def __init__(self, iterable=(), **kwargs) -> None:
+        self.__dict__.update(iterable, **kwargs)

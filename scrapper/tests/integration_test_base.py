@@ -12,7 +12,8 @@ def add_data():
     repo = VideoRepo(DB_DEVELOPMENT)
     repo.insert([
         Video(url="some", isFavourite=False),
-        Video(url="some", isFavourite=True)
+        Video(url="some", isFavourite=True),
+        Video(url="some", isFavourite=False),
     ])
 
 
